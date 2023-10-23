@@ -1,0 +1,90 @@
+@import "react-alice-carousel/lib/alice-carousel.css";
+.navbar-a{
+    display: flex;
+}
+.navbar-nav{
+    display: flex;
+}
+.bg-yellow-light{
+    background-color: lemonchiffon;
+    border-radius: 6px;
+}
+
+.Typewriter{
+    font-size: 2rem;
+}
+
+.navbar{
+    font-size:90%;
+    font:bolder;
+}
+.Button:hover{
+    background-color:#fff;
+    color: black;
+}
+.SlideText{
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    width: 40%;
+}
+.text-pink{
+    color: rgb(247, 49, 187);
+}
+input[type="radio"]:checked{
+    background-color: rgb(240, 189, 79);
+    border-color: rgb(240, 189, 79);
+}
+input[type="checkbox"]:checked{
+    background-color: rgb(241, 185, 64);
+    border-color: rgb(240, 189, 79);
+}
+.accordion-button:focus{
+    background-color: #fff;
+    border-color:rgb(245, 177, 89) ;
+    box-shadow: none;
+}
+.accordion-button:focus::backdrop{
+    background-color: #fff;
+}
+.accordion-button:active{
+    background-color: #fff;
+}
+
+.accordion:active{  
+ color: #fff;
+ background-color: none;
+
+}
+
+.accordion-header{
+ background-color: #fff;
+}
+
+
+.bg-c-light{
+    background-color:rgb(247, 232, 205);
+}
+.text-gray{
+    color: gray;
+}
+.accordion .item{
+    border: 0;
+    border-radius: 0;
+}
+.accordion .item .accordion-header button{
+    background-color: transparent;
+    box-shadow: none;
+}
+@media screen and (max-width: 992px) {
+.Image-Signup{
+display: none;
+}
+  }
+  
+  /* On screens that are 600px or less, set the background color to olive */
+  @media screen and (max-width: 600px) {
+    .Image-Signup{
+       display: none;
+        }
+  }
