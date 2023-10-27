@@ -7,15 +7,18 @@ import Hero from "./components/Hero";
 
 import Bottom from "./components/Bottom";
 import Explore from "../src/pages/Explore"
-import { Route, Routes } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Contact from "./pages/Contact";
 import WhyEM from "./pages/WhyEM";
 import BrowserV from "./pages/BrowserV";
 import Signup from "./pages/Signup";
-
+import { useState } from "react";
+import Profile from "./pages/Profile";
+import { redirect } from "react-router-dom";
 
 
 function App() {
+  const [user,setLoginUser]=useState({})
   return (
     <div className="App">
       <header className="App-header">
@@ -26,9 +29,13 @@ function App() {
           <Route path="/contact" element={<Contact/>}/>
           <Route path="/whyEm" element={<WhyEM/>}/>
           <Route path="/browser" element={<BrowserV/>}/>
-          <Route path="/getStartFree" element={<Signup/>}/>
-        
+          <Route path="/getStartFree" element={<Signup setLoginUser={setLoginUser}/>}/>
+          <Route path="/Profile" element={<Profile />}/>
+
+         {/* <Route path="/Profile" element={user&& user._id?<Profile/>:<Signup setLoginUser={setLoginUser}/>}/>*/}
           </Routes>
+       
+           
         <Bottom/>
       </header>
     </div>

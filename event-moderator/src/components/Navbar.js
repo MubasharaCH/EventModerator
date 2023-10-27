@@ -10,15 +10,47 @@ import { Link } from "react-router-dom";
 import {FaApple} from "react-icons/fa"
 import {FcGoogle} from "react-icons/fc"
 import { Col, Row } from "react-bootstrap";
+import axios from "axios"
+import {useNavigate} from 'react-router-dom';
 
 
-const Navbar = () => {
+const Navbar = ({setLoginUser}) => {
+  const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [lgShow, setLgShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [user,setUser]= useState({
+  
+    email:"",
+    password:""
+  })
+const handleChnage=e=>{
+  const {name,value}=e.target
+  setUser({
+    ...user,
+    [name]:value
+  })
+}
+const login=()=>{
+  const {email,password}=user
+  if(email && password){
+   
+   axios.post("http://localhost:9002/login",user)
+   .then(res=>{alert(res.data.message)
+     setLoginUser(res.data.user)
+    navigate. push("/Profile")
+  })
+
+  }
+  else{
+   alert("Invailed input")
+ 
+  }
+}
   return (
     <div className="container mt-2 ">
+      {console.log("User",user)}
       <nav class="navbar navbar-expand-lg navbar-light ">
         <div class="container-fluid">
           <div className="bold text-warning me-3">
@@ -90,7 +122,7 @@ const Navbar = () => {
               </li>
               <li class="nav-item ">
                 <a class="nav-link active" href="#">
-                <Link to="/"  style={{textDecoration: 'none'}} className="text-dark " onClick={handleShow}> Login
+                <Link  style={{textDecoration: 'none'}} className="text-dark " onClick={handleShow}> Login
                </Link>
                <Modal 
                 size="lg"
@@ -107,12 +139,14 @@ const Navbar = () => {
     <Form className='position-center'>
    <div class="form-group">
     <Form.Label for="exampleInputEmail1" controlId="formBasicBidding">Email address</Form.Label>
-    <input type="email" class="form-control shadow-none border border-warning" id="exampleInputEmail1" aria-describedby="emailHelp"/>
+    <input type="email" class="form-control shadow-none border border-warning" name="email"
+     value={user.email} id="exampleInputEmail1" aria-describedby="emailHelp" onChange={handleChnage}/>
     <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
   </div>
   <div class="form-group">
     <Form.Label for="exampleInputPassword1">Password</Form.Label>
-    <input type="password" class="form-control shadow-none border border-warning" id="exampleInputPassword1"/>
+    <input type="password" class="form-control shadow-none border border-warning" name="password" value={user.password}
+    id="exampleInputPassword1" onChange={handleChnage}/>
   </div>
   <p className="text-center mt-1 mb-1">Forget Password?</p>
   <div class="form-group form-check">
@@ -120,7 +154,7 @@ const Navbar = () => {
     <Form.Label class="form-check-label " for="exampleCheck1">Agree with turms & conditions</Form.Label>
   </div>
   <div className="container text-center ">
-  <Button type="submit" variant="warning"  class="btn bg-warning mt-2 mb-2" size="lg" onClick={handleClose}>
+  <Button type="submit" variant="warning"  class="btn bg-warning mt-2 mb-2" size="lg" onClick={login} >
     Submit
  </Button>
   </div>
