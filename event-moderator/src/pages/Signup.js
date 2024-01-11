@@ -12,41 +12,59 @@ import Rose from "../img/rose.jpg"
 import axios from "axios"
 import {useNavigate} from 'react-router-dom';
 
-const Signup = ({setLoginUser}) => {
+const Signup = () => {
   const navigate = useNavigate();
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const [user,setUser]= useState({
  
     email:"",
     password:""
   })
-const handleChnage=e=>{
-  const {name,value}=e.target
-  setUser({
-    ...user,
-    [name]:value
-  })
-}
-const register = () =>{
-  const {email,password}=user
-  if(email && password){
-   
-   axios.post("http://localhost:9002/register",user)
-   .then(res=>{alert(res.data.message)
-    navigate. push("/Profile")
-  })
-  }
-  else{
-   alert("Invailed input")
+ let name,value;
+const handleChnage=(e)=>{
+ name=e.target.name
+ value=e.target.value
+ setUser({...user,[name]:value})
  
+
+}
+const handleSubmit = async (e) =>{
+ e.preventDefault();
+ const {email, password}=user
+ if(!email || !password){
+  window.alert("Wrong Credentails")
+ }else{
+
+  const res= await fetch('/register',{
+    method:"POST",
+    headers:{
+      'Content-Type': 'application/json ',
+    },
+    body: JSON.stringify({
+      email, password
+    })
+  });
+   const data= await res.json();
+
+  if(data.status === 422 || !data){
+    window.alert('Invalid Registeration')
+    console.log('Invalid Registeration')
+  }else{
+    window.alert(' Registeration SuccessFull')
+    console.log('Registeration SuccessFull')
+   navigate('/')
   }
 }
+}
+
+
   
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  
   return (
     <div style={{backgroundImage:'url(Signbg.png)'}}  className="">
-      {console.log("User",user)}
         <div className='container '>
          <Row>
           <Col sm={8}>
@@ -56,24 +74,26 @@ const register = () =>{
       <div className='mt-4'style={{width:"18rem",height:"29rem"}}>
        <div className=''>
     <h3>Your next step to more leads and more bookings, create your Event Moderator vendor Profile!</h3>
-    <Form className='position-center mt-2'>
-   <div class="form-group">
+    <Form className='position-center mt-2' method='POST'>
+   <div className="form-group">
     <Form.Label for="exampleInputEmail1" controlId="formBasicBidding">Email address</Form.Label>
-    <input type="email" class="form-control shadow-none  border border-warning" name="email" value={user.email} style={{width:"18rem"}} id="exampleInputEmail1" aria-describedby="emailHelp" onChange={handleChnage}/>
-    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    <input type="email"   className="form-control shadow-none  border border-warning" 
+    name="email" value={user.email} style={{width:"18rem"}} id="exampleInputEmail1" autoComplete='off'
+     aria-describedby="emailHelp" onChange={handleChnage}/>
+    <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
   </div>
-  <div class="form-group">
+  <div className="form-group">
     <Form.Label for="exampleInputPassword1">Password</Form.Label>
-    <input type="password" class="form-control shadow-none border border-warning" name="password" value={user.Password}
-    style={{width:"18rem"}} id="exampleInputPassword1" onChange={handleChnage}/>
+    <input type="password"  className="form-control shadow-none border border-warning" name="password" value={user.password}
+    style={{width:"18rem"}} autoComplete='off' id="Password" onChange={handleChnage}/>
   </div>
   <p className="text-center mt-1 mb-1">Forget Password?</p>
-  <div class="form-group form-check">
-    <input type="checkbox" class="form-check-input shadow-none" id="exampleCheck1"/>
-    <Form.Label class="form-check-label " for="exampleCheck1">Agree with turms & conditions</Form.Label>
+  <div className="form-group form-check">
+    <input type="checkbox" className="form-check-input shadow-none" id="exampleCheck1"/>
+    <Form.Label className="form-check-label " for="exampleCheck1">Agree with turms & conditions</Form.Label>
   </div>
   <div className="container text-center ">
-  <Button type="submit" variant="warning"  class="btn bg-warning mt-2 mb-2" size="lg" onClick={register} >
+  <Button type="submit" variant="warning"  class="btn bg-warning mt-2 mb-2" size="lg" onClick={handleSubmit} >
    Create Account
  </Button>
   </div>
@@ -106,18 +126,18 @@ const register = () =>{
       <div className=''style={{width:"18rem" ,height:"20rem"}}>
        <div className=''>
     <Form className='position-center'>
-   <div class="form-group">
+   <div className="form-group">
     <Form.Label for="exampleInputEmail1" controlId="formBasicBidding">Email address</Form.Label>
-    <input type="email" class="form-control shadow-none border border-warning" id="exampleInputEmail1" aria-describedby="emailHelp"/>
-    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    <input type="email" className="form-control shadow-none border border-warning" id="exampleInputEmail1" aria-describedby="emailHelp"/>
+    <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
   </div>
   <div class="form-group">
     <Form.Label for="exampleInputPassword1">Password</Form.Label>
-    <input type="password" class="form-control shadow-none border border-warning" id="exampleInputPassword1"/>
+    <input type="password" className="form-control shadow-none border border-warning" id="exampleInputPassword1"/>
   </div>
   <p className="text-center mt-1 mb-1">Forget Password?</p>
   <div class="form-group form-check">
-    <input type="checkbox" class="form-check-input shadow-none" id="exampleCheck1"/>
+    <input type="checkbox" className="form-check-input shadow-none" id="exampleCheck1"/>
     <Form.Label class="form-check-label " for="exampleCheck1">Agree with turms & conditions</Form.Label>
   </div>
   <div className="container text-center ">
@@ -148,10 +168,6 @@ const register = () =>{
       </Modal>
   </div>
     </div>
-   
-     
-   
-  
           </Col>
           <Image src={Rose} style={{height:"20rem",width:"18rem" }} className='mt-5 Image-Signup' fluid/>
           <Col>
